@@ -8,7 +8,7 @@ void sens_Initialize() {
 uint8_t sens_GetLineStatus() {
     uint32_t readout;
 
-    P5->DIR = 0x38;                     // set P5.3 (IR LED) as output
+    P5->DIR = 0b111000;                 // set P5.3 (IR LED) as output
     P5->OUT = 0x08;                     // turn on P5.3 (IR LED)
     P9->OUT = 0x04;                     // turn on P9.2 (IR LED)
     P7->DIR = 0xFF;                     // P7.0 to P7.7 (IR Sensors) as output
@@ -16,7 +16,7 @@ uint8_t sens_GetLineStatus() {
     __delay_cycles(10);                 // wait 10 x 1us before start
     P7->DIR = 0x00;                     // P7.0 to P7.7 (IR Sensors) as inputs
     __delay_cycles(2000);               // wait 1000 x 1us for caps to discharge
-    readout = P7->IN;                  // read IR sensor values
+    readout = P7->IN;                   // read IR sensor values
     P5->OUT = 0x00;                     // turn off P5.3 (IR LED)
     
     uint8_t l4 = (readout >> 7) & 1;
